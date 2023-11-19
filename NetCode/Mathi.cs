@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System;
 
 namespace NetCode
 {
@@ -36,11 +37,11 @@ namespace NetCode
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int BitsRequired(uint range)
         {
-#if NETSTANDARD2_0 || NETSTANDARD2_1
+//#if NETSTANDARD2_0 || NETSTANDARD2_1
             return range == 0 ? 1 : Log2(range) + 1;
-#else
-        return range == 0 ? 1 : BitOperations.Log2(range) + 1;
-#endif
+//#else
+//        return range == 0 ? 1 : BitOperations.Log2(range) + 1;
+//#endif
         }
     
         public static int Log2(uint value)

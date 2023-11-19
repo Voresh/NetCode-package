@@ -1,4 +1,6 @@
-﻿namespace NetCode
+﻿using System;
+
+namespace NetCode
 {
     public static class BitWriterStringExtensions
     {

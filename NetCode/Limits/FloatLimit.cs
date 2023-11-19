@@ -1,4 +1,6 @@
-﻿namespace NetCode.Limits
+﻿using System;
+
+namespace NetCode.Limits
 {
     public sealed class FloatLimit
     {

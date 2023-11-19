@@ -1,3 +1,5 @@
+using System;
+
 namespace NetCode.Limits
 {
     public sealed class Vector3Limit
