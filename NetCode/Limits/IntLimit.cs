@@ -1,23 +1,24 @@
-namespace NetCode.Limits;
-
-public sealed class IntLimit
+namespace NetCode.Limits
 {
-    public readonly int Min;
-
-    public readonly int Max;
-
-    public readonly int BitCount;
-
-    public IntLimit(int min, int max)
+    public sealed class IntLimit
     {
-        if (min > max)
+        public readonly int Min;
+
+        public readonly int Max;
+
+        public readonly int BitCount;
+
+        public IntLimit(int min, int max)
         {
-            ThrowHelper.ThrowArgumentException();
-        }
+            if (min > max)
+            {
+                ThrowHelper.ThrowArgumentException();
+            }
         
-        var range = max - min;
-        BitCount = Mathi.BitsRequired((uint)range);
-        Min = min;
-        Max = max;
+            var range = max - min;
+            BitCount = Mathi.BitsRequired((uint)range);
+            Min = min;
+            Max = max;
+        }
     }
 }

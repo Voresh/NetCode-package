@@ -1,58 +1,59 @@
 ﻿using System.Runtime.CompilerServices;
 using NetCode.Limits;
 
-namespace NetCode;
-
-public static class BitReaderUShortExtensions
+namespace NetCode
 {
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ushort ReadUShort(this BitReader reader, UShortLimit limit)
+    public static class BitReaderUShortExtensions
     {
-        var value = (ushort)reader.ReadBits(limit.BitCount);
-        return (ushort)(value + limit.Min);
-    }
-    
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ushort ReadUShort(this BitReader reader, ushort baseline)
-    {
-        var isChanged = reader.ReadBool();
-        if (isChanged)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort ReadUShort(this BitReader reader, UShortLimit limit)
         {
-            return reader.ReadUShort();
+            var value = (ushort)reader.ReadBits(limit.BitCount);
+            return (ushort)(value + limit.Min);
         }
-
-        return baseline;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ushort ReadUShort(this BitReader reader, ushort baseline, UShortLimit limit)
-    {
-        var isChanged = reader.ReadBool();
-        if (isChanged)
-        {
-            return reader.ReadUShort(limit);
-        }
-
-        return baseline;
-    }
     
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ushort ReadUShort(this BitReader reader, ushort baseline, UShortLimit limit, UShortLimit diffLimit)
-    {
-        var isChanged = reader.ReadBool();
-        if (isChanged)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort ReadUShort(this BitReader reader, ushort baseline)
         {
-            var isDiff = reader.ReadBool();
-
-            if (isDiff)
+            var isChanged = reader.ReadBool();
+            if (isChanged)
             {
-                var diff = reader.ReadUShort(diffLimit);
-                return (ushort)(baseline + diff);
+                return reader.ReadUShort();
             }
 
-            return reader.ReadUShort(limit);
+            return baseline;
         }
 
-        return baseline;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort ReadUShort(this BitReader reader, ushort baseline, UShortLimit limit)
+        {
+            var isChanged = reader.ReadBool();
+            if (isChanged)
+            {
+                return reader.ReadUShort(limit);
+            }
+
+            return baseline;
+        }
+    
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort ReadUShort(this BitReader reader, ushort baseline, UShortLimit limit, UShortLimit diffLimit)
+        {
+            var isChanged = reader.ReadBool();
+            if (isChanged)
+            {
+                var isDiff = reader.ReadBool();
+
+                if (isDiff)
+                {
+                    var diff = reader.ReadUShort(diffLimit);
+                    return (ushort)(baseline + diff);
+                }
+
+                return reader.ReadUShort(limit);
+            }
+
+            return baseline;
+        }
     }
 }

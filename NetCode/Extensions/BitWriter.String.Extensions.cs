@@ -1,40 +1,41 @@
-﻿namespace NetCode;
-
-public static class BitWriterStringExtensions
+﻿namespace NetCode
 {
-    public static void Write(this BitWriter writer, string value) => writer.WriteUtf8String(value);
-
-    public static void WriteValueIfChanged(this BitWriter writer, string baseline, string updated)
+    public static class BitWriterStringExtensions
     {
-        if (baseline == updated)
+        public static void Write(this BitWriter writer, string value) => writer.WriteUtf8String(value);
+
+        public static void WriteValueIfChanged(this BitWriter writer, string baseline, string updated)
         {
-            writer.Write(false);
+            if (baseline == updated)
+            {
+                writer.Write(false);
+            }
+            else
+            {
+                writer.Write(true);
+                writer.Write(updated);
+            }
         }
-        else
-        {
-            writer.Write(true);
-            writer.Write(updated);
-        }
-    }
     
-    public static void WriteUtf8String(this BitWriter writer, string value)
-    {
-        writer.WriteCompressed(value.Length);
-
-        for (var i = 0; i < value.Length; i++)
+        public static void WriteUtf8String(this BitWriter writer, string value)
         {
-            var byteValue = Convert.ToByte(value[i]);
-            writer.Write(byteValue); 
+            writer.WriteCompressed(value.Length);
+
+            for (var i = 0; i < value.Length; i++)
+            {
+                var byteValue = Convert.ToByte(value[i]);
+                writer.Write(byteValue); 
+            }
         }
-    }
     
-    public static void WriteUnicodeString(this BitWriter writer, string value)
-    {
-        writer.WriteCompressed(value.Length);
-
-        for (var i = 0; i < value.Length; i++)
+        public static void WriteUnicodeString(this BitWriter writer, string value)
         {
-            writer.Write(value[i]);
+            writer.WriteCompressed(value.Length);
+
+            for (var i = 0; i < value.Length; i++)
+            {
+                writer.Write(value[i]);
+            }
         }
     }
 }

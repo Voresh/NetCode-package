@@ -1,58 +1,59 @@
 ﻿using System.Runtime.CompilerServices;
 using NetCode.Limits;
 
-namespace NetCode;
-
-public static class BitReaderByteExtensions
+namespace NetCode
 {
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static byte ReadByte(this BitReader reader, ByteLimit limit)
+    public static class BitReaderByteExtensions
     {
-        var value = (byte)reader.ReadBits(limit.BitCount);
-        return (byte)(value + limit.Min);
-    }
-    
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static byte ReadByte(this BitReader reader, byte baseline)
-    {
-        var isChanged = reader.ReadBool();
-        if (isChanged)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte ReadByte(this BitReader reader, ByteLimit limit)
         {
-            return reader.ReadByte();
+            var value = (byte)reader.ReadBits(limit.BitCount);
+            return (byte)(value + limit.Min);
         }
-
-        return baseline;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static byte ReadByte(this BitReader reader, byte baseline, ByteLimit limit)
-    {
-        var isChanged = reader.ReadBool();
-        if (isChanged)
-        {
-            return reader.ReadByte(limit);
-        }
-
-        return baseline;
-    }
     
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static byte ReadByte(this BitReader reader, byte baseline, ByteLimit limit, ByteLimit diffLimit)
-    {
-        var isChanged = reader.ReadBool();
-        if (isChanged)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte ReadByte(this BitReader reader, byte baseline)
         {
-            var isDiff = reader.ReadBool();
-
-            if (isDiff)
+            var isChanged = reader.ReadBool();
+            if (isChanged)
             {
-                var diff = reader.ReadByte(diffLimit);
-                return (byte)(baseline + diff);
+                return reader.ReadByte();
             }
 
-            return reader.ReadByte(limit);
+            return baseline;
         }
 
-        return baseline;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte ReadByte(this BitReader reader, byte baseline, ByteLimit limit)
+        {
+            var isChanged = reader.ReadBool();
+            if (isChanged)
+            {
+                return reader.ReadByte(limit);
+            }
+
+            return baseline;
+        }
+    
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte ReadByte(this BitReader reader, byte baseline, ByteLimit limit, ByteLimit diffLimit)
+        {
+            var isChanged = reader.ReadBool();
+            if (isChanged)
+            {
+                var isDiff = reader.ReadBool();
+
+                if (isDiff)
+                {
+                    var diff = reader.ReadByte(diffLimit);
+                    return (byte)(baseline + diff);
+                }
+
+                return reader.ReadByte(limit);
+            }
+
+            return baseline;
+        }
     }
 }

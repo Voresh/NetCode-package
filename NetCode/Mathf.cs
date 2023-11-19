@@ -1,26 +1,27 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace NetCode;
-
-internal static class Mathf
+namespace NetCode
 {
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float Clamp(float value, float min, float max)
+    internal static class Mathf
     {
-        if (min > max)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Clamp(float value, float min, float max)
         {
-            ThrowHelper.ThrowArgumentException();
-        }
+            if (min > max)
+            {
+                ThrowHelper.ThrowArgumentException();
+            }
 
-        if (value < min)
-        {
-            return min;
-        }
-        else if (value > max)
-        {
-            return max;
-        }
+            if (value < min)
+            {
+                return min;
+            }
+            else if (value > max)
+            {
+                return max;
+            }
 
-        return value;
+            return value;
+        }
     }
 }

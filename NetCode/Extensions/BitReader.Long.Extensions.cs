@@ -1,19 +1,20 @@
 using System.Runtime.CompilerServices;
 
-namespace NetCode;
-
-public static class BitReaderLongExtensions
+namespace NetCode
 {
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static long ReadLong(this BitReader reader)
+    public static class BitReaderLongExtensions
     {
-        uint high = reader.ReadUInt();
-        uint low = reader.ReadUInt();
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long ReadLong(this BitReader reader)
+        {
+            uint high = reader.ReadUInt();
+            uint low = reader.ReadUInt();
         
-        long value = high;
-        value = value << 32;
-        value = value | low;
+            long value = high;
+            value = value << 32;
+            value = value | low;
         
-        return value;
+            return value;
+        }
     }
 }

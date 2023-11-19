@@ -1,15 +1,16 @@
 using System.Runtime.CompilerServices;
 
-namespace NetCode;
-
-public static class BitWriterULongExtensions
+namespace NetCode
 {
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void Write(this BitWriter writer, ulong value)
+    public static class BitWriterULongExtensions
     {
-        uint low = (uint)value;
-        uint high = (uint)(value >> 32);
-        writer.Write(high);
-        writer.Write(low);
-    }        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Write(this BitWriter writer, ulong value)
+        {
+            uint low = (uint)value;
+            uint high = (uint)(value >> 32);
+            writer.Write(high);
+            writer.Write(low);
+        }        
+    }
 }

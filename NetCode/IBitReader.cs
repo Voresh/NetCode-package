@@ -1,34 +1,35 @@
-namespace NetCode;
-
-public interface IBitReader
+namespace NetCode
 {
-    int Start { get; }
+    public interface IBitReader
+    {
+        int Start { get; }
     
-    int End { get; }
+        int End { get; }
     
-    (int Bytes, int Bits) RemainingToRead { get; }
+        (int Bytes, int Bits) RemainingToRead { get; }
     
-    (int Bytes, int Bits) Head { get; }
+        (int Bytes, int Bits) Head { get; }
 
-    void SetArray(byte[] data);
+        void SetArray(byte[] data);
     
-    void SetArray(byte[] data, int offset);
+        void SetArray(byte[] data, int offset);
 
-    void SetArray(byte[] data, int start, int length);
+        void SetArray(byte[] data, int start, int length);
 
-    void Reset();
+        void Reset();
     
-    uint ReadBits(int bitCount);
+        uint ReadBits(int bitCount);
 
-    bool ReadBool();
+        bool ReadBool();
     
-    byte ReadByte();
+        byte ReadByte();
     
-    ushort ReadUShort();
+        ushort ReadUShort();
     
-    short ReadShort();
+        short ReadShort();
     
-    uint ReadUInt();
+        uint ReadUInt();
     
-    int ReadInt();
+        int ReadInt();
+    }
 }

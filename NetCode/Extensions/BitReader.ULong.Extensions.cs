@@ -1,19 +1,20 @@
 using System.Runtime.CompilerServices;
 
-namespace NetCode;
-
-public static class BitReaderULongExtensions
+namespace NetCode
 {
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ulong ReadULong(this BitReader reader)
+    public static class BitReaderULongExtensions
     {
-        uint high = reader.ReadUInt();
-        uint low = reader.ReadUInt();
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong ReadULong(this BitReader reader)
+        {
+            uint high = reader.ReadUInt();
+            uint low = reader.ReadUInt();
         
-        ulong value = high;
-        value = value << 32;
-        value = value | low;
+            ulong value = high;
+            value = value << 32;
+            value = value | low;
         
-        return value;
+            return value;
+        }
     }
 }

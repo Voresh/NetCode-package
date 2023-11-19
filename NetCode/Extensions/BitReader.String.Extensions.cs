@@ -1,25 +1,25 @@
 ﻿using System.Buffers;
 
-namespace NetCode;
-
-public static class BitReaderStringExtensions
+namespace NetCode
 {
-    public static string ReadString(this BitReader reader) => ReadUtf8String(reader);
-
-    public static string ReadString(this BitReader reader, string baseline)
+    public static class BitReaderStringExtensions
     {
-        var isChanged = reader.ReadBool();
-        if (isChanged)
+        public static string ReadString(this BitReader reader) => ReadUtf8String(reader);
+
+        public static string ReadString(this BitReader reader, string baseline)
         {
-            return reader.ReadString();
-        }
+            var isChanged = reader.ReadBool();
+            if (isChanged)
+            {
+                return reader.ReadString();
+            }
 
-        return baseline;
-    }
+            return baseline;
+        }
     
-    public static string ReadUtf8String(this BitReader reader)
-    {
-        var length = reader.ReadCompressedInt();
+        public static string ReadUtf8String(this BitReader reader)
+        {
+            var length = reader.ReadCompressedInt();
 
 #if NETSTANDARD2_0
         
@@ -33,22 +33,22 @@ public static class BitReaderStringExtensions
         
 #else
         
-        var s = string.Create(length, reader, (span, bitReader) =>
-        {
-            for (int i = 0; i < span.Length; i++)
+            var s = string.Create(length, reader, (span, bitReader) =>
             {
-                span[i] = (char)bitReader.ReadByte();
-            }
-        });
+                for (int i = 0; i < span.Length; i++)
+                {
+                    span[i] = (char)bitReader.ReadByte();
+                }
+            });
 
 #endif
         
-        return string.Intern(s);
-    }
+            return string.Intern(s);
+        }
     
-    public static string ReadUnicodeString(this BitReader reader)
-    {
-        var length = reader.ReadCompressedInt();
+        public static string ReadUnicodeString(this BitReader reader)
+        {
+            var length = reader.ReadCompressedInt();
 
 #if NETSTANDARD2_0
         
@@ -61,16 +61,17 @@ public static class BitReaderStringExtensions
         ArrayPool<char>.Shared.Return(chars);
         
 #else
-        var s = string.Create(length, reader, (span, bitReader) =>
-        {
-            for (int i = 0; i < span.Length; i++)
+            var s = string.Create(length, reader, (span, bitReader) =>
             {
-                span[i] = (char)bitReader.ReadUShort();
-            }
-        });
+                for (int i = 0; i < span.Length; i++)
+                {
+                    span[i] = (char)bitReader.ReadUShort();
+                }
+            });
         
 #endif
         
-        return string.Intern(s);
+            return string.Intern(s);
+        }
     }
 }
